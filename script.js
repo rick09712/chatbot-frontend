@@ -29,7 +29,7 @@ chatForm.addEventListener('submit', (event) => {
     chatMessages.appendChild(typingIndicator);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    fetch('https://chatbot-backend-m7ig.onrender.com/chat', {
+    fetch('https://chatbot-backend-m7lg.onrender.com/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -2,6 +2,7 @@ const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const sendButton = document.getElementById('send-button');
 const chatMessages = document.getElementById('chat-messages');
+const backendUrl = 'https://chatbot-backend-m7lg.onrender.com';
 
 function addMessage(text, sender) {
     const messageElement = document.createElement('div');
@@ -9,6 +10,20 @@ function addMessage(text, sender) {
     messageElement.textContent = text;
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function wakeUpServer() {
+    fetch(backendUrl + '/')
+        .then(response => {
+            if (response.ok) {
+                console.log("Servidor já estava acordado.");
+            } else {
+                console.log("Ping de despertar enviado. O servidor está acordando.");
+            }
+        })
+        .catch(error => {
+            console.error("Ping para o servidor falhou. Isso é esperado se ele estiver dormindo. Erro:", error);
+        });
 }
 
 addMessage('Olá! Sou uma IA de sentimentos. Analiso a emoção em suas palavras, mas meu entendimento é simples. Como você se sente?', 'ia');
@@ -29,7 +44,7 @@ chatForm.addEventListener('submit', (event) => {
     chatMessages.appendChild(typingIndicator);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    fetch('https://chatbot-backend-m7lg.onrender.com/chat', {
+    fetch(backendUrl + '/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -51,3 +66,5 @@ chatForm.addEventListener('submit', (event) => {
         messageInput.focus();
     });
 });
+
+wakeUpServer();
